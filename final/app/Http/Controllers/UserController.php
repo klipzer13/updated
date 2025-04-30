@@ -36,6 +36,11 @@ class UserController extends Controller
         ]);
 
         if ($request->hasFile('avatar')) {
+            // Ensure the directory exists
+            if (!Storage::exists('public/profile/avatars')) {
+                Storage::makeDirectory('public/profile/avatars');
+            }
+
             $path = $request->file('avatar')->store('profile/avatars', 'public');
             $validated['avatar'] = 'storage/' . $path;
         } else {
